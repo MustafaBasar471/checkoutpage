@@ -9,8 +9,8 @@ const Navbar = () => {
           BERMUDA
         </Link>
         <ul className="flex justify-center items-center gap-8">
-          <Link className="text-xl capitalize" to={"/cart"}>
-            checkout
+          <Link className="text-xl" to={"/cart"}>
+            Cart
           </Link>
         </ul>
       </div>

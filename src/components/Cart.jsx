@@ -1,31 +1,38 @@
 import React, { useContext } from "react";
 import { MainContext } from "../Context/MainContext";
 import { Layout } from ".";
-import { Link } from "react-router-dom";
 import { MdOutlineDeleteSweep } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { data, updateCheckoutItems, deleteData } = useContext(MainContext);
+  const navigate = useNavigate();
 
   return (
     <Layout>
-      <div className="mt-5 p-5 sm:p-0 max-w-screen-xl mx-auto">
+      <div className="mt-5 p-5 max-w-screen-xl mx-auto">
         <div className="flex justify-between items-center">
           <p className="text-2xl mb-3">Cart Page</p>
-          <Link className="text-sm" to="/">
+          <p className="text-sm cursor-pointer" onClick={() => navigate("/")}>
             Back to home page
-          </Link>
+          </p>
         </div>
         {data.length !== 0 && (
-          <p className="mb-4 bg-yellow-400 rounded p-2">
+          <button
+            className="mb-4 bg-yellow-400 rounded p-2 w-full text-start"
+            onClick={() => navigate("/checkout")}
+          >
             Proceed to checkout ({data.length} items)
-          </p>
+          </button>
         )}
         {/*  */}
         <div className="flex flex-col gap-10">
           {data.map((item) => (
-            <div className="flex border p-2 rounded" key={item.id}>
-              <div className="h-[13rem] w-[15rem] mr-5">
+            <div
+              className="flex flex-col sm:flex-row border p-2 rounded"
+              key={item.id}
+            >
+              <div className="h-[13rem] sm:w-[15rem] sm:mr-5">
                 <img
                   src={item?.imageUrl}
                   alt="procudt_image"
@@ -33,7 +40,9 @@ const Cart = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <p className="text-lg font-semibold">{item?.product_Name}</p>
+                <p className="text-lg font-semibold mt-2 sm:mt-0">
+                  {item?.product_Name}
+                </p>
                 <p className="text-sm mt-2 text-slate-600">
                   {item?.product_desc}
                 </p>
