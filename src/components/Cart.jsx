@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const { data, updateCheckoutItems, deleteData } = useContext(MainContext);
   const navigate = useNavigate();
-  console.log(data);
+
   return (
     <Layout>
       <div className="mt-5 p-5 max-w-screen-xl mx-auto">

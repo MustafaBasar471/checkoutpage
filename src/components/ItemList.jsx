@@ -5,7 +5,7 @@ import { MainContext } from "../Context/MainContext";
 const ItemList = () => {
   const { addClick, data, apiData, filterText } = useContext(MainContext);
   const navigate = useNavigate();
-  console.log(apiData);
+
   return (
     <div className="p-5">
       {/*  */}
