@@ -94,7 +94,7 @@ const Checkout = () => {
             </div>
           </div>
           <div className="w-full sm:w-1/3 bg-slate-100 py-5 px-10 rounded">
-            <div className="flex flex-col gap-5 max-h-[20rem] overflow-auto mb-5">
+            <div className="flex flex-col gap-5 max-h-[20rem] overflow-auto mb-5 pt-2">
               {data?.map((item) => (
                 <div
                   className="flex rounded pb-3 border-b pt-2 sm:pt-0"
@@ -102,7 +102,7 @@ const Checkout = () => {
                 >
                   <div className="h-[8rem] w-[8rem] mr-5 relative">
                     <img
-                      src={item?.imageUrl}
+                      src={item?.thumbnail}
                       alt="procudt_image"
                       className="h-full w-full object-cover rounded shadow"
                     />
@@ -112,7 +112,7 @@ const Checkout = () => {
                   </div>
                   <div className="flex flex-col">
                     <p className="text-lg font-semibold">
-                      {item?.product_Name}
+                      {item?.name.slice(0, 10)}
                     </p>
                     <p className="mt-2">${item?.price}</p>
                   </div>
@@ -122,7 +122,7 @@ const Checkout = () => {
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-center">
                 <p>Sub Total</p>
-                <p className="text-lg font-semibold">${totalP}</p>
+                <p className="text-lg font-semibold">${totalP.toFixed(2)}</p>
               </div>
               <div className="flex justify-between items-center">
                 <p>Tax</p>

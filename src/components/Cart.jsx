@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const { data, updateCheckoutItems, deleteData } = useContext(MainContext);
   const navigate = useNavigate();
-
+  console.log(data);
   return (
     <Layout>
       <div className="mt-5 p-5 max-w-screen-xl mx-auto">
@@ -30,25 +30,25 @@ const Cart = () => {
           {data.map((item) => (
             <div
               className="flex flex-col sm:flex-row border p-2 rounded"
-              key={item.id}
+              key={item.position}
             >
-              <div className="h-[13rem] sm:w-[15rem] sm:mr-5">
+              <div className="h-[13rem] max-w-[13rem] sm:mr-5">
                 <img
-                  src={item?.imageUrl}
+                  src={item?.thumbnail}
                   alt="procudt_image"
                   className="h-full w-full object-cover rounded shadow"
                 />
               </div>
               <div className="flex flex-col">
                 <p className="text-lg font-semibold mt-2 sm:mt-0">
-                  {item?.product_Name}
+                  {item?.name}
                 </p>
                 <p className="text-sm mt-2 text-slate-600">
                   {item?.product_desc}
                 </p>
                 <p className="mt-2 text-sm text-slate-600">
                   Ships from and sold by{" "}
-                  <span className="font-semibold">{item?.product_owner}</span>
+                  <span className="font-semibold">{item?.marketplace}</span>
                 </p>
                 <p className="mt-2">${item?.price}</p>
                 <div className="mt-2 flex items-end h-full gap-2">
@@ -73,7 +73,7 @@ const Cart = () => {
                   </div>
                   <button
                     className="text-xl py-2 px-5 bg-red-500 hover:bg-red-400 text-white duration-300 rounded-lg"
-                    onClick={() => deleteData(item?.id)}
+                    onClick={() => deleteData(item?.position)}
                   >
                     <MdOutlineDeleteSweep />
                   </button>

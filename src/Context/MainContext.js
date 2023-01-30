@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -5,6 +6,7 @@ export const MainContext = createContext();
 
 export const MainProvider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [apiData, setApiData] = useState([]);
 
   const getData = () => {
     let items;
@@ -20,7 +22,7 @@ export const MainProvider = ({ children }) => {
     let items = getData();
 
     items.forEach((item, idx) => {
-      if (item.id === ItemId) {
+      if (item.position === ItemId) {
         items.splice(idx, 1);
         setData([...items]);
       }
@@ -31,21 +33,24 @@ export const MainProvider = ({ children }) => {
 
   const addClick = (newItem) => {
     let items = getData();
-    if (items.filter((x) => x?.id === newItem.id).length !== 0) {
+    if (items.filter((x) => x?.position === newItem.position).length !== 0) {
       toast.error("You have already added this item");
     } else {
-      items.push(newItem);
+      const savedItem = {
+        ...newItem,
+        qty: 1,
+      };
+      items.push(savedItem);
       localStorage.setItem("items", JSON.stringify([...items]));
       toast.success("Item successfully added");
-
-      setData([...data, newItem]);
+      setData([...data, savedItem]);
     }
   };
 
   const updateCheckoutItems = (checkoutItem, qty) => {
     let items = getData();
     for (let product of items) {
-      if (product.id === checkoutItem.id) {
+      if (product.position === checkoutItem.position) {
         if (qty < 1) {
           toast.error("QTY cannot be less than one");
           return false;
@@ -62,13 +67,42 @@ export const MainProvider = ({ children }) => {
     setData([...items]);
   }, []);
 
+  const getDataFromApi = useCallback(async () => {
+    const result = await axios.get("https://api.chimoney.io/v0.2/info/assets");
+    const items = result.data.data.ecommerce;
+    let productList = [];
+    for (let i = 0; i < 9; i++) {
+      productList.push(items[i]);
+    }
+    setApiData(productList);
+  }, []);
+
+  useEffect(() => {
+    getDataFromApi();
+  }, [getDataFromApi]);
+
   useEffect(() => {
     loadAllData();
   }, [loadAllData]);
 
+  // Text Func
+
+  const filterText = (text) => {
+    const filter = text.split(",")[0];
+    const returnText = filter.length > 40 ? filter.slice(0, 35) : filter;
+    return returnText;
+  };
+
   return (
     <MainContext.Provider
-      value={{ addClick, data, deleteData, updateCheckoutItems }}
+      value={{
+        addClick,
+        data,
+        apiData,
+        deleteData,
+        updateCheckoutItems,
+        filterText,
+      }}
     >
       {children}
     </MainContext.Provider>
