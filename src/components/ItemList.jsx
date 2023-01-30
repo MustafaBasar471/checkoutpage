@@ -38,6 +38,9 @@ const ItemList = () => {
         ))}
         {/*  */}
       </div>
+      {apiData.length === 0 && (
+        <p className="text-2xl text-center">Loading ...</p>
+      )}
     </div>
   );
 };
